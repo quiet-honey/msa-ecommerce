@@ -13,6 +13,22 @@ services/product-service/node_modules/
 services/product-service/.env
 services/product-service/dist/
 services/product-service/.cache/
+services/product-service/.eslintcache
+services/product-service/.yarn-integrity
+services/product-service/.pnp.*
+services/product-service/.turbo
+services/product-service/.npm/
+services/product-service/npm-debug.log*
+services/product-service/yarn-error.log*
+services/product-service/pnpm-debug.log*
+services/product-service/lerna-debug.log*
+services/product-service/.husky/_/
+services/product-service/coverage/
+services/product-service/.nyc_output/
+services/product-service/jest-test-results.json
+services/product-service/.pm2/
+services/product-service/.nuxt/
+services/product-service/out/
 
 # Java(Spring Boot)
 services/order-service/target/
@@ -46,15 +62,65 @@ services/order-service/bin
 **/env/
 **/.env
 
-# IDEs and Editors
-**/.idea/
-**/.vscode/
+# compiled output
+/dist
+/node_modules
+/build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# temp directory
+.temp
+.tmp
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# 기타 추가된 공통 캐시 및 테스트 파일
+**/.cache/
 **/.DS_Store
 **/Thumbs.db
 **/*.swp
 **/*.swo
-
-# OS files
 **/desktop.ini
 **/._*
 **/.localized

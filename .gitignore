@@ -1,0 +1,60 @@
+# Python(FastAPI)
+services/user-service/__pycache__/
+services/user-service/*.pyc
+services/user-service/*.pyo
+services/user-service/.pytest_cache/
+services/user-service/.venv/
+services/user-service/venv/
+services/user-service/env/
+services/user-service/.env
+
+# Node.js(NestJS)
+services/product-service/node_modules/
+services/product-service/.env
+services/product-service/dist/
+services/product-service/.cache/
+
+# Java(Spring Boot)
+services/order-service/target/
+services/order-service/*.log
+services/order-service/*.jar
+services/order-service/.env
+services/order-service/.idea/
+services/order-service/.classpath
+services/order-service/.project
+services/order-service/.settings/
+services/order-service/.mvn/
+services/order-service/mvnw*
+services/order-service/pom.xml.tag
+services/order-service/pom.xml.releaseBackup
+services/order-service/pom.xml.versionsBackup
+services/order-service/pom.xml.next
+
+# Docker and Common
+**/Dockerfile
+**/docker-compose.yml
+**/.dockerignore
+**/node_modules/
+**/logs
+**/log/
+**/*.log
+**/nohup.out
+**/tmp/
+**/coverage/
+**/dist/
+**/build/
+**/env/
+**/.env
+
+# IDEs and Editors
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db
+**/*.swp
+**/*.swo
+
+# OS files
+**/desktop.ini
+**/._*
+**/.localized

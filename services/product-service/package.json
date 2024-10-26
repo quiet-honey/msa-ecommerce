@@ -1,0 +1,18 @@
+{
+  "name": "product-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/cli": "^10.4.5",
+    "@nestjs/common": "^10.4.6",
+    "@nestjs/core": "^10.4.6",
+    "@nestjs/platform-express": "^10.4.6"
+  }
+}

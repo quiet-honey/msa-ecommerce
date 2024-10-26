@@ -31,8 +31,6 @@ services/order-service/pom.xml.versionsBackup
 services/order-service/pom.xml.next
 
 # Docker and Common
-**/Dockerfile
-**/docker-compose.yml
 **/.dockerignore
 **/node_modules/
 **/logs

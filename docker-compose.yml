@@ -11,6 +11,9 @@ services: # 여러 서비스를 정의
     ports:
       - "8001:8000"
 
+    environment:
+      MONGO_URI: "mongodb://$MONGO_USER:$MONGO_PASSWORD@mongo:27018/$MONGODB_DATABASE" # MongoDB 연결 URI
+
   product-service:
     # product-service의 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정
     build: ./services/product-service
@@ -20,6 +23,9 @@ services: # 여러 서비스를 정의
     ports:
       - "8002:3000"
 
+    environment:
+      POSTGRES_URI: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5433/$POSTGRES_DATABASE" # PostgreSQL 연결 URI
+
   order-service:
     # order-service의 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정
     build: ./services/order-service
@@ -28,6 +34,9 @@ services: # 여러 서비스를 정의
     # Spring Boot 서버가 8080 포트에서 실행되도록 설정하여 매핑
     ports:
       - "8003:8080"
+
+    environment:
+      MYSQL_URI: "mysql://$MYSQL_USER:$MYSQL_PASSWORD@mysql:3307/$MYSQL_DATABASE" # MySQL 연결 URI
 
   gateway:
     # API Gateway 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정
@@ -40,3 +49,32 @@ services: # 여러 서비스를 정의
       - user-service # Gateway가 의존하는 user-service
       - product-service # Gateway가 의존하는 product-service
       - order-service # Gateway가 의존하는 order-service
+
+  # MongoDB 컨테이너 설정
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27018:27017" # 로컬에서의 포트:컨테이너에서의 포트
+    environment:
+      MONGO_INITDB_DATABASE: $MONGODB_DATABASE
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+
+  # PSQL 컨테이너 설정
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: $POSTGRES_DATABASE
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+  # MySQL 컨테이너 설정
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD

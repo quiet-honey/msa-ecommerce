@@ -14,6 +14,9 @@ services: # 여러 서비스를 정의
     environment:
       MONGO_URI: "mongodb://$MONGO_USER:$MONGO_PASSWORD@mongo:27018/$MONGODB_DATABASE" # MongoDB 연결 URI
 
+    depends_on:
+      - mongo # MongoDB가 먼저 실행되도록 설정
+
   product-service:
     # product-service의 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정
     build: ./services/product-service
@@ -26,6 +29,9 @@ services: # 여러 서비스를 정의
     environment:
       POSTGRES_URI: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5433/$POSTGRES_DATABASE" # PostgreSQL 연결 URI
 
+    depends_on:
+      - postgres # PostgreSQL이 먼저 실행되도록 설정
+
   order-service:
     # order-service의 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정
     build: ./services/order-service
@@ -37,6 +43,9 @@ services: # 여러 서비스를 정의
 
     environment:
       MYSQL_URI: "mysql://$MYSQL_USER:$MYSQL_PASSWORD@mysql:3307/$MYSQL_DATABASE" # MySQL 연결 URI
+
+    depends_on:
+      - mysql # MySQL이 먼저 실행되도록 설정
 
   gateway:
     # API Gateway 컨테이너 이미지를 빌드할 때 사용할 Dockerfile 경로를 지정

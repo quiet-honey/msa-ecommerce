@@ -27,7 +27,7 @@ services: # 여러 서비스를 정의
       - "8002:3000"
 
     environment:
-      POSTGRES_URI: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5433/$POSTGRES_DATABASE" # PostgreSQL 연결 URI
+      POSTGRES_URI: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DATABASE" # PostgreSQL 연결 URI
 
     depends_on:
       - postgres # PostgreSQL이 먼저 실행되도록 설정

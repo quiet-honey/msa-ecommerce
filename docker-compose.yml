@@ -42,7 +42,9 @@ services: # 여러 서비스를 정의
       - "8003:8080"
 
     environment:
-      MYSQL_URI: "mysql://$MYSQL_USER:$MYSQL_PASSWORD@mysql:3307/$MYSQL_DATABASE" # MySQL 연결 URI
+      MYSQL_URI: "jdbc:mysql://mysql:3306/$MYSQL_DATABASE" # MySQL 연결 URI
+      MYSQL_USER: "$MYSQL_USER"
+      MYSQL_PASSWORD: "$MYSQL_PASSWORD"
 
     depends_on:
       - mysql # MySQL이 먼저 실행되도록 설정

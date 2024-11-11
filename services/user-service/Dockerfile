@@ -14,4 +14,11 @@ COPY . .
 # FastAPI 애플리케이션 실행: Uvicorn을 사용해 FastAPI 애플리케이션을 실행합
 # --host 0.0.0.0: 컨테이너 외부에서도 접근할 수 있도록 설정
 # --port 8000: FastAPI 서버가 컨테이너의 8000번 포트에서 실행되도록 설정
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# --reload: 자동 리로딩 활성화
+CMD [\
+    "uvicorn", \
+    "main:app", \
+    "--host", "0.0.0.0", \
+    "--port", "8000",\
+    "--reload" \
+]

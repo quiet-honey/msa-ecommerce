@@ -1,12 +1,12 @@
 # Python(FastAPI)
-services/user-service/__pycache__/
-services/user-service/*.pyc
-services/user-service/*.pyo
+services/user-service/**/__pycache__/
+services/user-service/**/*.cpython-*
 services/user-service/.pytest_cache/
 services/user-service/.venv/
 services/user-service/venv/
 services/user-service/env/
 services/user-service/.env
+
 
 # Node.js(NestJS)
 services/product-service/node_modules/

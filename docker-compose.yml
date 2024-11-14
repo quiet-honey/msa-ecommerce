@@ -30,6 +30,9 @@ services: # 여러 서비스를 정의
     ports:
       - "8002:3000"
 
+    volumes:
+      - ./services/product-service:/app # 로컬 파일을 컨테이너에 마운트
+
     environment:
       POSTGRES_URI: "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DATABASE" # PostgreSQL 연결 URI
 

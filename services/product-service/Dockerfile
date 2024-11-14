@@ -6,14 +6,18 @@ WORKDIR /app
 
 # 패키지 파일 복사 및 설치: package.json과 package-lock.json을 복사하고 npm install로 의존성을 설치
 COPY package*.json ./
+
+# 의존성 설치
 RUN npm install
+
+# 개발용 의존성도 설치 (nodemon 포함)
+RUN npm install --only=dev
 
 # 애플리케이션 코드 복사: 로컬의 모든 소스 파일을 컨테이너의 /app 디렉토리에 복사
 COPY . .
 
-# NestJS 애플리케이션 빌드: TypeScript로 작성된 코드를 JavaScript로 변환하여 dist 폴더에 저장
-RUN npm run build
+# 애플리케이션 포트 설정
+EXPOSE 3000
 
-# NestJS 서버 실행: 빌드된 애플리케이션을 실행
-# npm start:production 스크립트를 사용해 production 모드로 실행
-CMD ["npm", "run", "start:prod"]
+# nodemon을 통해 NestJS 앱 실행
+CMD ["npx", "nodemon", "-L", "--config", "nodemon.json"]

@@ -82,7 +82,6 @@ services: # 여러 서비스를 정의
       - "27018:27017" # 로컬에서의 포트:컨테이너에서의 포트
 
     environment:
-      MONGO_INITDB_DATABASE: $MONGODB_DATABASE
       MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
       MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
 

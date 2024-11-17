@@ -5,9 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor
+@Data
 public class Order {
 
     @Id
@@ -22,8 +26,7 @@ public class Order {
 
     private String status;
 
-
-    public Order(Long productId, int quantity, int price, String status){
+    public Order(Long productId, int quantity, int price, String status) {
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;

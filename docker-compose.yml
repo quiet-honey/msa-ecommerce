@@ -55,7 +55,8 @@ services: # 여러 서비스를 정의
       MYSQL_URI: "jdbc:mysql://mysql:3306/$MYSQL_DATABASE" # MySQL 연결 URI
       MYSQL_USER: "$MYSQL_USER"
       MYSQL_PASSWORD: "$MYSQL_PASSWORD"
-
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      
     depends_on:
       - mysql # MySQL이 먼저 실행되도록 설정
 

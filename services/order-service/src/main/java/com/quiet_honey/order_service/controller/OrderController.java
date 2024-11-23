@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.quiet_honey.order_service.entity.Order;
 import com.quiet_honey.order_service.service.OrderService;
 
-
-
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    
+
     @Autowired
     private OrderService orderService;
 
@@ -30,6 +28,5 @@ public class OrderController {
         orderService.createOrder(testOrder);
         return orderService.findAllOrders();
     }
-    
-    
+
 }

@@ -49,7 +49,7 @@ services: # 여러 서비스를 정의
       - "8003:8080"
 
     volumes:
-      - ./services/order-service/src:/app/src # 소스 코드 디렉토리를 컨테이너와 동기화
+      - ./services/order-service/build:/app/build
 
     environment:
       MYSQL_URI: "jdbc:mysql://mysql:3306/$MYSQL_DATABASE" # MySQL 연결 URI

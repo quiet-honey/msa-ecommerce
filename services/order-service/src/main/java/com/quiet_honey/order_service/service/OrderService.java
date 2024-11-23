@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quiet_honey.order_service.entity.Order;
 import com.quiet_honey.order_service.repository.OrderRepository;
@@ -30,9 +31,7 @@ public class OrderService {
             String jsonOrder = objectMapper.writeValueAsString(result); // JSON 직렬화
             kafkaTemplate.send("order-created", jsonOrder); // JSON 메시지 전송
             System.out.println("Order created and sent to Kafka: " + jsonOrder);
-            // System.out.println("제발 좀 되라");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (JsonProcessingException e) {
         }
         return result;
     }

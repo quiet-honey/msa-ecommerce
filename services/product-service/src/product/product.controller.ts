@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('products')
 export class ProductController {
@@ -14,5 +15,10 @@ export class ProductController {
       description: 'Sample product',
     });
     return await this.productService.findAllProducts();
+  }
+
+  @MessagePattern('order-created')
+  handleOrderCreated(@Payload() data: any) {
+    console.log('Order created Event Received', data);
   }
 }

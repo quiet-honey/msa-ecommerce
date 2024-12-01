@@ -13,6 +13,7 @@ export class ProductController {
     await this.productService.create({
       name: 'Test Product',
       price: 19.99,
+      stock: 100,
       description: 'Sample product',
     });
     return await this.productService.findAllProducts();

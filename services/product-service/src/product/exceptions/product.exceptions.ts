@@ -6,7 +6,7 @@ export class ProductNotFoundException extends HttpException {
   }
 }
 
-export class ProductSoldOut extends HttpException {
+export class ProductSoldOutException extends HttpException {
   constructor(productId: number) {
     super(`Product with Id ${productId} is sold out`, HttpStatus.BAD_REQUEST);
   }

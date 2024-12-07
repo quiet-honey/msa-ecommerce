@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Product } from './product.entity';
 import { OrderCreatedEvent } from './event/order.created.event';
-import { ProductSoldOut as ProductSoldOutException } from './exceptions/product.exceptions';
+import { ProductSoldOutException } from './exceptions/product.exceptions';
 import { ProductRepository } from './product.repository';
+import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    @Inject('KAFKA_SERVICE') private readonly kafkaClient: ClientKafka,
+  ) {}
 
   // 상품 생성
   async create(productData: Partial<Product>): Promise<Product> {
@@ -19,9 +23,8 @@ export class ProductService {
     return await this.productRepository.find();
   }
 
-  // 새로운 주문 핸들링
-  async handleOrderCreatedEvent(orderData: OrderCreatedEvent): Promise<void> {
-    const { productId, quantity } = orderData;
+  // 상품 재고 차감
+  async deductStock(productId: number, quantity: number): Promise<void> {
     const product = await this.productRepository.findByIdOrThrow(productId);
 
     product.stock -= quantity;
@@ -30,5 +33,24 @@ export class ProductService {
     }
 
     this.productRepository.save(product);
+  }
+
+  // 주문 취소
+  cancelOrder(orderId: number, productId: number, message: string): void {
+    const event = { orderId, productId, message };
+    this.kafkaClient.emit('order-cancelled', JSON.stringify(event)),
+      console.log('emit order-cancelled event');
+  }
+
+  // 새로운 주문 핸들링
+  async handleOrderCreatedEvent(orderData: OrderCreatedEvent): Promise<void> {
+    const { id, productId, quantity } = orderData;
+
+    try {
+      await this.deductStock(productId, quantity);
+    } catch (error) {
+      console.error(`Failed to deduct stock for order ${id}: ${error.message}`);
+      this.cancelOrder(id, productId, error.message);
+    }
   }
 }

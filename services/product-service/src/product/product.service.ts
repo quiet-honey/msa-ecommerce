@@ -1,7 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Product } from './product.entity';
 import { OrderCreatedEvent } from './event/order.created.event';
-import { ProductSoldOutException } from './exceptions/product.exceptions';
+import {
+  ProductError,
+  ProductSoldOutError,
+} from './exceptions/product.exceptions';
 import { ProductRepository } from './product.repository';
 import { ClientKafka } from '@nestjs/microservices';
 
@@ -29,7 +32,7 @@ export class ProductService {
 
     product.stock -= quantity;
     if (product.stock < 0) {
-      throw new ProductSoldOutException(productId);
+      throw new ProductSoldOutError(productId);
     }
 
     this.productRepository.save(product);
@@ -48,9 +51,14 @@ export class ProductService {
 
     try {
       await this.deductStock(productId, quantity);
-    } catch (error) {
-      console.error(`Failed to deduct stock for order ${id}: ${error.message}`);
-      this.cancelOrder(id, productId, error.message);
+    } catch (e) {
+      if (e instanceof ProductError) {
+        console.error(`Failed to deduct stock for order ${id}: ${e.message}`);
+        this.cancelOrder(id, productId, e.message);
+      } else {
+        console.log(`Unknown error occurred: ${e.message}`);
+        throw e;
+      }
     }
   }
 }

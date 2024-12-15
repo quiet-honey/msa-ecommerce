@@ -1,13 +1,18 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-
-export class ProductNotFoundException extends HttpException {
-  constructor(productId: number) {
-    super(`Product with ID ${productId} not found`, HttpStatus.NOT_FOUND);
+export class ProductError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = this.constructor.name;
   }
 }
 
-export class ProductSoldOutException extends HttpException {
+export class ProductNotFoundError extends ProductError {
   constructor(productId: number) {
-    super(`Product with Id ${productId} is sold out`, HttpStatus.BAD_REQUEST);
+    super(`Product with ID ${productId} not found`);
+  }
+}
+
+export class ProductSoldOutError extends ProductError {
+  constructor(productId: number) {
+    super(`Product with Id ${productId} is sold out`);
   }
 }

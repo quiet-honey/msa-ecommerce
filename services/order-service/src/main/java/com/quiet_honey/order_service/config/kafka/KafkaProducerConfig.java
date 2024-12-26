@@ -1,14 +1,15 @@
 package com.quiet_honey.order_service.config.kafka;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-
-import java.util.Map;
-import java.util.HashMap;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 
 @Configuration
 public class KafkaProducerConfig {
@@ -26,6 +27,8 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+        KafkaTemplate<String, String> template = new KafkaTemplate<>(producerFactory());
+        template.setMessageConverter(new StringJsonMessageConverter());
+        return template;
     }
 }

@@ -3,7 +3,9 @@ package com.quiet_honey.order_service.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,6 +28,7 @@ public class OrderService {
     public Order createOrder(Order order) {
         System.out.println("Order: " + order.toString());
         Order result = orderRepository.save(order);
+
         try {
             System.out.println("Result: " + result.toString());
             String jsonOrder = objectMapper.writeValueAsString(result); // JSON 직렬화
@@ -33,11 +36,17 @@ public class OrderService {
             System.out.println("Order created and sent to Kafka: " + jsonOrder);
         } catch (JsonProcessingException e) {
         }
+
         return result;
     }
 
     public List<Order> findAllOrders() {
         return orderRepository.findAll();
+    }
+
+    @KafkaListener(topics = "order-cancelled", groupId = "order-service-group", containerFactory = "kafkaListenerContainerFactory")
+    private void handleOrderCancelledEvent(@Payload Object event) {
+        System.out.println("Order cancelled: " + event);
     }
 
 }

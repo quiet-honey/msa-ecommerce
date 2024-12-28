@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class OrderCancelledEvent {
-    private int orderId; // 주문 ID
+    private Long orderId; // 주문 ID
     private int productId; // 제품 ID
     private String message; // 메시지 (에러 설명)
 }

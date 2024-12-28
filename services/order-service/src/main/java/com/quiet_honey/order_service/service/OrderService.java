@@ -2,7 +2,6 @@ package com.quiet_honey.order_service.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,19 @@ import com.quiet_honey.order_service.repository.OrderRepository;
 
 @Service
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-
+    private final OrderRepository orderRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 직렬화용 ObjectMapper
 
-    public OrderService(KafkaTemplate<String, String> kafkaTemplate) {
+    public OrderService(OrderRepository orderRepository, KafkaTemplate<String, String> kafkaTemplate) {
+        this.orderRepository = orderRepository;
         this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
     }
 
     public Order createOrder(Order order) {

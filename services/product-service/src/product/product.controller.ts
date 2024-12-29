@@ -10,13 +10,18 @@ export class ProductController {
 
   @Get()
   async getAllProducts(): Promise<Product[]> {
+    return await this.productService.findAllProducts();
+  }
+
+  @Get('test')
+  async test() {
     await this.productService.create({
       name: 'Test Product',
       price: 19.99,
       stock: 100,
       description: 'Sample product',
     });
-    return await this.productService.findAllProducts();
+    return 'Test product created';
   }
 
   @MessagePattern('order-created')

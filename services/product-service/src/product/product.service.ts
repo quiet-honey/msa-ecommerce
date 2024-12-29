@@ -41,16 +41,24 @@ export class ProductService {
   // 주문 취소
   cancelOrder(orderId: number, productId: number, message: string): void {
     const event = { orderId, productId, message };
-    this.kafkaClient.emit('order-cancelled', JSON.stringify(event)),
-      console.log('emit order-cancelled event');
+    this.kafkaClient.emit('order-cancelled', JSON.stringify(event));
+    console.log('emit order-cancelled event');
+  }
+
+  // 주문 처리
+  processOrder(orderId: number, productId: number): void {
+    const event = { orderId, productId };
+    this.kafkaClient.emit('order-processed', JSON.stringify(event));
+    console.log('emit order-processed event');
   }
 
   // 새로운 주문 핸들링
-  async handleOrderCreatedEvent(orderData: OrderCreatedEvent): Promise<void> {
-    const { id, productId, quantity } = orderData;
+  async handleOrderCreatedEvent(event: OrderCreatedEvent): Promise<void> {
+    const { id, productId, quantity } = event;
 
     try {
       await this.deductStock(productId, quantity);
+      this.processOrder(id, productId);
     } catch (e) {
       if (e instanceof ProductError) {
         console.error(`Failed to deduct stock for order ${id}: ${e.message}`);

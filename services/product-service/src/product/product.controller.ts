@@ -1,8 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { OrderCreatedEvent } from './event/order.created.event';
 
 @Controller('products')
 export class ProductController {
@@ -22,10 +20,5 @@ export class ProductController {
       description: 'Sample product',
     });
     return 'Test product created';
-  }
-
-  @MessagePattern('order-created')
-  async handleOrderCreated(@Payload() data: OrderCreatedEvent) {
-    await this.productService.handleOrderCreatedEvent(data);
   }
 }

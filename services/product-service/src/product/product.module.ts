@@ -6,14 +6,16 @@ import { ProductController } from './product.controller';
 import { ProductRepository } from './product.repository';
 import { ClientsModule } from '@nestjs/microservices';
 import { KAFKA_OPTION } from 'src/config';
+import { ProductConsumer } from './product.consumer';
+import { ProductProducer } from './product.producer';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Product]),
     ClientsModule.register([KAFKA_OPTION]),
   ],
-  providers: [ProductService, ProductRepository],
-  controllers: [ProductController],
+  providers: [ProductService, ProductRepository, ProductProducer],
+  controllers: [ProductController, ProductConsumer],
   exports: [ProductRepository],
 })
 export class ProductModule {}

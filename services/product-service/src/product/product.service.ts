@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Product } from './product.entity';
 import { OrderCreatedEvent } from './event/order.created.event';
 import {
@@ -6,13 +6,13 @@ import {
   ProductSoldOutError,
 } from './exceptions/product.exceptions';
 import { ProductRepository } from './product.repository';
-import { ClientKafka } from '@nestjs/microservices';
+import { ProductProducer } from './product.producer';
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly productRepository: ProductRepository,
-    @Inject('KAFKA_SERVICE') private readonly kafkaClient: ClientKafka,
+    private readonly productProducer: ProductProducer,
   ) {}
 
   // 상품 생성
@@ -41,15 +41,13 @@ export class ProductService {
   // 주문 취소
   cancelOrder(orderId: number, productId: number, message: string): void {
     const event = { orderId, productId, message };
-    this.kafkaClient.emit('order-cancelled', JSON.stringify(event));
-    console.log('emit order-cancelled event');
+    this.productProducer.emit('order-cancelled', event);
   }
 
   // 주문 처리
   processOrder(orderId: number, productId: number): void {
     const event = { orderId, productId };
-    this.kafkaClient.emit('order-processed', JSON.stringify(event));
-    console.log('emit order-processed event');
+    this.productProducer.emit('order-processed', event);
   }
 
   // 새로운 주문 핸들링
